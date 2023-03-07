@@ -65,8 +65,8 @@ return(
         <div class="flip-card-inner">
             <FrontCard front = {data[num].front}/>
             <BackCard back = {data[num].back}/>
-            <button onClick={addOne}>⭢</button>
         </div>
+        <button onClick={addOne}>⭢</button>
     </div>
     )
 }
