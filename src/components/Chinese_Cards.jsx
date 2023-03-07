@@ -1,11 +1,10 @@
 import React from "react";
-import Resturant from "./Resturant";
-import Image from "./Image";
-import Description from "./Description";
+import "../Style/Chinese-Cards.css"
+import ShuffleData from "./ShuffleData";
 const Chinese_Cards = () => {
 return(
     <div className="container">
-
+        <ShuffleData/>
     </div>
     )
 }
