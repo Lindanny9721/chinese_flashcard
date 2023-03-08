@@ -68,7 +68,14 @@ const ShuffleData = () => {
             "image": "https://tse3.mm.bing.net/th?id=OIP.yLvn-tohZNKeSXgSZ9cDkwHaE6&pid=Api"
         },
     ])
-    const nextCard = () => {
+    const nextCard = (array) => {
+        let index = array.length,  randomIndex;
+        while (index != 0) {
+            randomIndex = Math.floor(Math.random() * index);
+            index--;
+            [array[index], array[randomIndex]] = [array[randomIndex], array[index]];
+         }
+         setData(array);
         if(num == data.length - 1)
         {
             setNum(num + 1);
@@ -79,15 +86,6 @@ const ShuffleData = () => {
             setNum(num + 1);
             setFlip(true);
         }
-    }
-    const Shuffle = (array) => {
-        let index = array.length,  randomIndex;
-        while (index != 0) {
-            randomIndex = Math.floor(Math.random() * index);
-            index--;
-            [array[index], array[randomIndex]] = [array[randomIndex], array[index]];
-         }
-         setData(array);
     }
     const handleClick = () => {
         if(flip)
@@ -105,8 +103,7 @@ return(
             </div>
         </div>
         <div>
-            <button onClick={nextCard}>⭢</button>
-            <button onClick={() => Shuffle(data)}>Shuffle</button>
+            <button onClick={() => nextCard(data)}>⭢</button>
         </div>
     </div>
     )
