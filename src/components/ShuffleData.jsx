@@ -5,7 +5,10 @@ import BackCard from "./BackCard";
 import "../Style/Card.css"
 const ShuffleData = () => {
     const [num, setNum] = useState(0);
-    const [flip, setFlip] = useState(true);
+    const [flip, setFlip] = useState(false);
+    const [userAnswer, setUserAnswer] = useState('');
+    const [numOfCorrect, setCorrectAnswer] = useState(0);
+    const [highScore, setHighScore] = useState(0);
     const [data, setData] = useState([
         {
             "front": "麦当劳",
@@ -66,44 +69,96 @@ const ShuffleData = () => {
             "back": "high class, first rate (gāojí)",
             "difficulty": "easy",
             "image": "https://tse3.mm.bing.net/th?id=OIP.yLvn-tohZNKeSXgSZ9cDkwHaE6&pid=Api"
-        },
+        }
     ])
-    const nextCard = (array) => {
+    const nextCard = () => {
+        if(num == data.length - 1)
+        {
+            setNum(num + 1);
+            setNum(0);
+            setFlip(false);
+            setUserAnswer("");
+        }
+        else
+        {
+            setNum(num + 1);
+            setFlip(false);
+            setUserAnswer("");
+        }
+    }
+    const prevCard = () => {
+        if(num == 0)
+        {
+            setNum(num - 1);
+            setNum(data.length - 1);
+            setFlip(false);
+            setUserAnswer("");
+        }
+        else {
+            setNum(num - 1);
+            setFlip(false);
+            setUserAnswer("");
+        }
+    }
+    const Shuffle = (array) => {
         let index = array.length,  randomIndex;
         while (index != 0) {
             randomIndex = Math.floor(Math.random() * index);
             index--;
             [array[index], array[randomIndex]] = [array[randomIndex], array[index]];
-         }
-         setData(array);
-        if(num == data.length - 1)
-        {
-            setNum(num + 1);
-            setNum(0);
         }
-        else
-        {
-            setNum(num + 1);
-            setFlip(true);
-        }
+        setData(array);
     }
     const handleClick = () => {
-        if(flip)
-            setFlip(false);
-        else
+        if(!flip)
             setFlip(true);
-      }
-      
+        else
+            setFlip(false);
+    }
+    const handleChange = (e) => {
+        setUserAnswer(e.target.value);
+    }
+    const checkAnswer = (e) => {
+        e.preventDefault();
+        if(data[num].back != userAnswer){
+            if(highScore < numOfCorrect)
+                setHighScore(numOfCorrect);
+            setCorrectAnswer(0);
+        } 
+        else {
+            setCorrectAnswer(numOfCorrect + 1);
+        }
+    }
+    const removeCard = (array) => {
+        const index = data.indexOf(array);
+        if (index > -1)
+        {
+            data.splice(index, 1);
+            console.log(data);
+        }
+    } 
 return(
     <div className = "container">
-        <div onClick = {handleClick} className={flip ? "flip-card" : "card"}>
+        <div>
+            <h3>Number of Cards: {data.length}</h3>
+            <h3>Current Streak: {numOfCorrect} Longest Streak: {highScore}</h3>
+        </div>
+        <div onClick = {handleClick} className={flip ? "card" : "flip-card"}>
             <div  className="card-inner">
                 <FrontCard front = {data[num].front} color = {data[num].difficulty}/>
                 <BackCard back = {data[num].back} color = {data[num].difficulty} image = {data[num].image}/>
             </div>
         </div>
+        <form>
+            <label for ="answer"> Answer: </label>
+            <input type="text" name = "answer" value={userAnswer} onChange = {handleChange}></input>
+            <button disabled = {flip} onClick={checkAnswer}>Submit</button>
+        </form>
         <div>
-            <button onClick={() => nextCard(data)}>⭢</button>
+            <button onClick={prevCard}>⭠</button>
+            <button onClick={nextCard}>⭢</button>
+            <button onClick={() => Shuffle(data)}>Shuffle</button>
+            <button onClick={() => removeCard(data[num])}>Remove</button>
         </div>
     </div>
     )
