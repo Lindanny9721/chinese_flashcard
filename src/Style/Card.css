@@ -50,3 +50,9 @@
   .hard{
     background-color: lightcoral;
   }
+  .red{
+    border-color: red;
+  }
+  .green{
+    border-color: green;
+  }

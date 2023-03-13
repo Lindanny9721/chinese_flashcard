@@ -9,6 +9,7 @@ const ShuffleData = () => {
     const [userAnswer, setUserAnswer] = useState('');
     const [numOfCorrect, setCorrectAnswer] = useState(0);
     const [highScore, setHighScore] = useState(0);
+    const [color, setColor] = useState('');
     const [data, setData] = useState([
         {
             "front": "麦当劳",
@@ -78,12 +79,14 @@ const ShuffleData = () => {
             setNum(0);
             setFlip(false);
             setUserAnswer("");
+            setColor('');
         }
         else
         {
             setNum(num + 1);
             setFlip(false);
             setUserAnswer("");
+            setColor('');
         }
     }
     const prevCard = () => {
@@ -93,11 +96,13 @@ const ShuffleData = () => {
             setNum(data.length - 1);
             setFlip(false);
             setUserAnswer("");
+            setColor('');
         }
         else {
             setNum(num - 1);
             setFlip(false);
             setUserAnswer("");
+            setColor('');
         }
     }
     const Shuffle = (array) => {
@@ -124,9 +129,11 @@ const ShuffleData = () => {
             if(highScore < numOfCorrect)
                 setHighScore(numOfCorrect);
             setCorrectAnswer(0);
+            setColor('red');
         } 
         else {
             setCorrectAnswer(numOfCorrect + 1);
+            setColor('green');
         }
     }
     const removeCard = (array) => {
@@ -134,7 +141,6 @@ const ShuffleData = () => {
         if (index > -1)
         {
             data.splice(index, 1);
-            console.log(data);
         }
     } 
 return(
@@ -151,7 +157,7 @@ return(
         </div>
         <form>
             <label for ="answer"> Answer: </label>
-            <input type="text" name = "answer" value={userAnswer} onChange = {handleChange}></input>
+            <input className = {color} type="text" name = "answer" value={userAnswer} onChange = {handleChange}></input>
             <button disabled = {flip} onClick={checkAnswer}>Submit</button>
         </form>
         <div>
